@@ -22,7 +22,7 @@ export default function Home() {
             <code className={styles.code}>src/pages/index.tsx</code>
           </p>
           <div>
-          <Button variant="contained">Contained</Button>
+          <Button variant="contained">SSSSS</Button>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
               target="_blank"
