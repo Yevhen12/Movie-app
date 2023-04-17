@@ -1,0 +1,27 @@
+.sidebar {
+    background-color: var(--color-secondary);
+    width: 300px;
+    border: 1px solid var(--color-border);
+    padding: 20px;
+}
+.list {
+    width: 100%;
+    background-color: var(--color-secondary);
+
+    .listItemText {
+        color: var(--color-white);
+        font-weight: bold;
+    }
+    .listItem {
+        border-radius: 5px;
+    }
+    .listItemActive {
+        font-weight: bold;
+        border-radius: 5px;
+        background-color: var(--color-btn-active);
+    }
+    .listItemTextActive {
+        font-weight: bold;
+        color: var(--color-red)
+    }
+}

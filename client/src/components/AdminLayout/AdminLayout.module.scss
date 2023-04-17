@@ -1,0 +1,24 @@
+.wrapper {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.layoutBlock {
+    background-color: var(--color-secondary);
+    width: 800px;
+    border: 1px solid var(--color-border);
+    padding: 20px;
+
+    .title {
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--color-white);
+    }
+
+    .headerBlock {
+        display: flex;
+        justify-content: space-between;
+    }
+}

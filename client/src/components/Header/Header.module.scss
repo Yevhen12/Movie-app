@@ -2,20 +2,46 @@
     height: 96px;
     width:100%;
     background-color: var(--color-base);
-
+    // background-color: white;
+    .container {
+      height: 100%;
+    }
     .headerBlock {
-        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         height: 100%;
         width: 100%;
-
         .logo {
             height: 100%;
             width: 100%;
         }
-
-        .headerInput {
-            color: red;
-            // background-color: blue;
+        .logoText {
+          cursor: pointer;
+          color: var(--color-white);;
+          font-size: 27px;
         }
     }
+    .navBar {
+      color: white;
+    }
+    .list{
+      text-decoration: none;
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+    .list li {
+      margin: 0 0 0 40px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+}
+
+.labelInput {
+    color: white;
+}
+.headerInput {
+  height: 40px;
+  color: white;
 }

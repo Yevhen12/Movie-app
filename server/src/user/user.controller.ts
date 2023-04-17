@@ -33,7 +33,7 @@ export class UserController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
@@ -41,3 +41,12 @@ export class UserController {
     return this.userService.remove(id);
   }
 }
+
+// public class Animal {
+//   public string Name { get; set; }
+//   public int Age { get; set; }
+//   public double AvarageHeight { get; set; }
+//   public bool isMammal { get; set; }
+//   public string[] Food { get; set; }
+//   public Dictionary<string, string>Habitat { get; set; }
+// }

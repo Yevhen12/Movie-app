@@ -8,7 +8,7 @@ import { isValidObjectId } from '../utils/isValidObjectId';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
@@ -20,38 +20,67 @@ export class UserService {
   }
 
   async findAll() {
-    const allUsers = await this.userModel.find({});
-    if (!allUsers) {
+    try {
+      const allUsers = await this.userModel.find({});
+      if (!allUsers) {
+        throw new HttpException('Something gone wrond :(', HttpStatus.NOT_FOUND);
+      }
+      return allUsers;
+    }
+    catch (err) {
       throw new HttpException('Something gone wrond :(', HttpStatus.NOT_FOUND);
     }
-    return allUsers;
   }
+
 
   async findOne(id: string) {
-    if (!isValidObjectId(id)) {
-      throw new HttpException('Wrong id format', HttpStatus.BAD_REQUEST);
-    }
-    const user = await this.userModel.findById(id).exec();
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    try {
+      if (!isValidObjectId(id)) {
+        throw new HttpException('Wrong id format', HttpStatus.BAD_REQUEST);
+      }
+      const user = await this.userModel.findById(id).exec();
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+
+      return user;
+    } catch (err) {
+      throw new HttpException('Error occurs', HttpStatus.BAD_REQUEST)
     }
 
-    return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  update(id: string, updateUserDto: UpdateUserDto) {
+    try {
+      if (!isValidObjectId(id)) {
+        throw new HttpException('Wrong id format', HttpStatus.BAD_REQUEST);
+      }
+
+      const updatedUser = this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true })
+
+      if (!updatedUser) {
+        throw new HttpException('Can not find a user with such id', HttpStatus.NOT_FOUND)
+      }
+
+      return updatedUser
+    } catch (err) {
+      throw new HttpException('Error occurs', HttpStatus.BAD_REQUEST)
+    }
   }
 
   async remove(id: string) {
-    if (!isValidObjectId(id)) {
-      throw new HttpException('Wrong id format', HttpStatus.BAD_REQUEST);
-    }
-    const user = await this.userModel.findByIdAndDelete(id);
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
+    try {
+      if (!isValidObjectId(id)) {
+        throw new HttpException('Wrong id format', HttpStatus.BAD_REQUEST);
+      }
+      const user = await this.userModel.findByIdAndDelete(id);
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
 
-    return user;
+      return user;
+    } catch (err) {
+      throw new HttpException('Error occurs', HttpStatus.BAD_REQUEST)
+    }
   }
 }
