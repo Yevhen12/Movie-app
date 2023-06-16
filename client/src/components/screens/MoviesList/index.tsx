@@ -1,8 +1,9 @@
 import React from 'react'
 import Layout from '@/components/MainLayout/Layout'
-import { Container, Button } from '@mui/material'
+import { Container } from '@mui/material'
 import AdminLayout from '@/components/AdminLayout/AdminLayout'
 import FilmTable from '@/components/FilmTable/FilmTable'
+import Button from '@/components/Button/Button'
 import styles from './MoviesList.module.scss'
 
 
@@ -20,7 +21,7 @@ const MoviesList: React.FC = () => {
       <Container maxWidth='lg'>
         <AdminLayout
           title='Movies List'
-          btn={<Button className={styles.btn}>Delete All</Button>}
+          btn={<Button text='Delete all' variant='outlined' />}
         >
           <FilmTable films={MOCK_FILMS} />
         </AdminLayout>

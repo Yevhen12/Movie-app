@@ -1,16 +1,12 @@
 import React from 'react'
-import Layout from '@/components/MainLayout/Layout'
-import Sidebar from '@/components/Sidebar/Sidebar'
-import { Container } from '@mui/material'
+import Users from '@/components/screens/Users'
+import { NextPage } from 'next'
 
 
-export default function Users() {
+const FavoriteListPage: NextPage = () => {
   return (
-    <Layout>
-      <Container maxWidth='lg'>
-        <p>Movies List</p>
-        <Sidebar />
-      </Container>
-    </Layout>
+    <Users />
   )
 }
+
+export default FavoriteListPage

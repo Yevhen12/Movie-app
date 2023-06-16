@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
+import { Button as MUIButton } from '@mui/material'
+import styles from './Button.module.scss'
 
 interface ButtonProps {
   text: string
   icon?: React.ReactElement
-  variant: 'contained' | 'outlined'
+  variant?: 'contained' | 'outlined'
 }
 
-const Button: React.FC<ButtonProps> = () => {
+const Button: React.FC<PropsWithChildren<ButtonProps>> = ({ text, variant = 'contained', icon }) => {
   return (
-    <div>Button</div>
+    <MUIButton className={variant === 'contained' ? styles.contained : styles.outlined}>
+      {icon && icon}
+      {text}
+    </MUIButton>
   )
 }
 

@@ -1,17 +1,21 @@
 import React from 'react'
 import Layout from '@/components/MainLayout/Layout'
-import { Container, Button } from '@mui/material'
+import { Container } from '@mui/material'
 import AdminLayout from '@/components/AdminLayout/AdminLayout'
 import CategoryTable from '@/components/CategoryTable/CategoryTable'
 import styles from './Categories.module.scss'
+import Button from '@/components/Button/Button'
+import { ACTIONS } from '../../../constants/btnActions'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
-const MOCK_FILMS = [
-  { image: 'some image', name: 'Film1323232323', category: 'Romance', language: 'English', year: 2020, hours: '3h', actions: ['delete', 'edit'] },
-  { image: 'some image', name: 'Film2', category: 'Romance', language: 'English', year: 2015, hours: '3h', actions: ['delete', 'edit'] },
-  { image: 'some image', name: 'Film3', category: 'Romance', language: 'Ukrainian', year: 2020, hours: '3h', actions: ['delete', 'edit'] },
-  { image: 'some image', name: 'Film4', category: 'Romance', language: 'English', year: 2021, hours: '3h', actions: ['delete', 'edit'] },
-  { image: 'some image', name: 'Film5', category: 'Romance', language: 'English', year: 2010, hours: '3h', actions: ['delete', 'edit'] },
+const MOCK_CATEGORIES = [
+  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
 ]
 
 const FavoriteMovies: React.FC = () => {
@@ -20,9 +24,15 @@ const FavoriteMovies: React.FC = () => {
       <Container maxWidth='lg'>
         <AdminLayout
           title='Favorites Movies'
-          btn={<Button className={styles.btn}>Delete All</Button>}
+          btn={
+            <Button
+              text='Create'
+              variant='outlined'
+              icon={<AddCircleIcon className={styles.btnIcon} style={{ fill: "white" }} />}
+            />
+          }
         >
-          <CategoryTable films={MOCK_FILMS} />
+          <CategoryTable categories={MOCK_CATEGORIES} />
         </AdminLayout>
       </Container>
     </Layout>

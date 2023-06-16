@@ -1,0 +1,18 @@
+.btnContainer {
+    display: flex;
+}
+
+.editBtn {
+    font-size: 14px;
+    text-transform: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-green);
+    margin-right: 5px;
+}
+
+.deleteBtn {
+    font-size: 14px;
+    text-transform: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-red);
+}
