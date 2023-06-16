@@ -15,7 +15,7 @@ export class UserService {
       const createdUser = new this.userModel(createUserDto);
       return createdUser.save();
     } catch (err) {
-      throw new HttpException('Something gone wrond :(', HttpStatus.NOT_FOUND);
+      throw new HttpException('Something gone extremely wrond :(', HttpStatus.NOT_FOUND);
     }
   }
 
