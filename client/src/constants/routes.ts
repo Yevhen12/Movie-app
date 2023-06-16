@@ -7,7 +7,8 @@ enum ROUTES {
     CATEGORIES = '/categories',
     ADD_MOVIE = '/add-movie',
     ABOUT = '/about',
-    MOVIES = '/movies'
+    MOVIES = '/movies',
+    FAVORITE_MOVIES = '/favorite-movies'
 }
 
 export default ROUTES

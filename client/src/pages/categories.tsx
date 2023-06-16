@@ -1,16 +1,12 @@
 import React from 'react'
-import Layout from '@/components/MainLayout/Layout'
-import Sidebar from '@/components/Sidebar/Sidebar'
-import { Container } from '@mui/material'
+import Categories from '@/components/screens/Categories'
+import { NextPage } from 'next'
 
 
-export default function Categories() {
+const CategoriesPage: NextPage = () => {
   return (
-    <Layout>
-      <Container maxWidth='lg'>
-        <p>Categories</p>
-        <Sidebar />
-      </Container>
-    </Layout>
+    <Categories />
   )
 }
+
+export default CategoriesPage

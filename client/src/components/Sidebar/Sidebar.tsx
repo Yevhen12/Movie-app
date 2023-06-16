@@ -9,7 +9,6 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
 import VideoCallSharpIcon from '@mui/icons-material/VideoCallSharp';
-import SendIcon from '@mui/icons-material/Send';
 import ROUTES from '@/constants/routes';
 import styles from './Sidebar.module.scss'
 import { useRouter } from 'next/router';
@@ -45,14 +44,14 @@ const Sidebar: React.FC = () => {
       icon: <GroupOutlinedIcon style={router.asPath === ROUTES.USERS ? { fill: 'red' } : { fill: 'white' }} />
     },
     {
-      text: 'some',
-      path: 'some route1',
+      text: 'Update profile',
+      path: 'some',
       icon: <LockOutlinedIcon style={router.asPath === 'some route1' ? { fill: 'red' } : { fill: 'white' }} />
     },
     {
-      text: 'some',
-      path: 'some route2',
-      icon: <FavoriteOutlinedIcon style={router.asPath === 'some route2' ? { fill: 'red' } : { fill: 'white' }} />
+      text: 'Favorite movies',
+      path: ROUTES.FAVORITE_MOVIES,
+      icon: <FavoriteOutlinedIcon style={router.asPath === ROUTES.FAVORITE_MOVIES ? { fill: 'red' } : { fill: 'white' }} />
     },
     {
       text: 'some',
@@ -61,8 +60,9 @@ const Sidebar: React.FC = () => {
     },
   ]
 
-  const itemsList: React.ReactElement[] = useMemo(() => SIDEBAR_ITEMS.map(item => (
+  const itemsList: React.ReactElement[] = useMemo(() => SIDEBAR_ITEMS.map((item, id) => (
     <ListItemButton
+      key={id}
       className={router.asPath === item.path ? styles.listItemActive : styles.listItem}
       onClick={() => router.push(item.path)}
     >

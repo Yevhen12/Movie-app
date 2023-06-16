@@ -9,10 +9,18 @@ import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 import styles from './Dashboard.module.scss'
+import FilmTable from '@/components/FilmTable/FilmTable'
+
+const MOCK_FILMS = [
+  {image: 'some image', name: 'Film1323', category: 'Romance', language: 'English', year: 2020, hours: '3h', actions: ['delete', 'edit']},
+  {image: 'some image', name: 'Film2', category: 'Romance', language: 'English', year: 2015, hours: '3h', actions: ['delete', 'edit']},
+  {image: 'some image', name: 'Film3', category: 'Romance', language: 'Ukrainian', year: 2020, hours: '3h', actions: ['delete', 'edit']},
+  {image: 'some image', name: 'Film4', category: 'Romance', language: 'English', year: 2021, hours: '3h', actions: ['delete', 'edit']},
+  {image: 'some image', name: 'Film5', category: 'Romance', language: 'English', year: 2010, hours: '3h', actions: ['delete', 'edit']},
+]
 
 
-
-const Dashboard: NextPage = () => {
+const Dashboard: React.FC = () => {
   return (
     <Layout>
       <Container maxWidth='lg'>
@@ -37,6 +45,7 @@ const Dashboard: NextPage = () => {
               icon={<PersonSharpIcon fontSize='small' style={{ fill: 'white' }} />}
             />
           </div>
+          <FilmTable films={MOCK_FILMS} />
         </AdminLayout>
       </Container>
     </Layout>

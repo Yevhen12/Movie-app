@@ -23,8 +23,8 @@ const menu: MenuType = [
 const Header: React.FC = () => {
   const router = useRouter()
 
-  const menuItems: React.ReactElement[] = menu.map(menuItem => (
-    <li>
+  const menuItems: React.ReactElement[] = menu.map((menuItem, id) => (
+    <li key={id}>
       <Link href={menuItem.path}>
         <p style={router.asPath === menuItem.path ? { color: 'red' } : { color: 'white' }}>{menuItem.text}</p>
       </Link>
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <Container className={styles.container} maxWidth='lg'>
         <div className={styles.headerBlock}>
-          <p className={styles.logoText} onClick = {() => router.push(ROUTES.HOME)}>LOGO</p>
+          <p className={styles.logoText} onClick={() => router.push(ROUTES.HOME)}>LOGO</p>
           <TextField
             variant='standard'
             className={styles.headerInput}
