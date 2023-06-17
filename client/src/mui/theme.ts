@@ -27,13 +27,32 @@ const theme = createTheme({
   components: {
     MuiTextField: {
       styleOverrides: {
-        root: ({ ownerState }) => ({
-          ...(ownerState.variant === 'standard' && {
-            borderColor: 'white',
+        root: {
+          "& .MuiOutlinedInput-root": {
+            "fieldset": {
+              borderColor: "rgba(31, 41, 55, 0.6)",
+            },
+            // "&:hover fieldset": {
+            //   borderColor: "red",
+            // },
+            // "&.Mui-focused fieldset": {
+            //   borderColor: "red",
+            // },
+          },
+        },
+      },
+      defaultProps: {
+        inputProps: {
+          style: {
             color: 'white',
-            height: '100px',
-          }),
-        }),
+            borderColor: 'white',
+            backgroundColor: "rgb(8 10 26)",
+            borderRadius: '3px',
+            fontSize: '14px',
+            // fontSize: "11.8px",
+            // height: '.85rem',
+          },
+        },
       },
       variants: [
         {

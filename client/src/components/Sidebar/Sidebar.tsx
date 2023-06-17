@@ -45,8 +45,8 @@ const Sidebar: React.FC = () => {
     },
     {
       text: 'Update profile',
-      path: 'some',
-      icon: <LockOutlinedIcon style={router.asPath === 'some route1' ? { fill: 'red' } : { fill: 'white' }} />
+      path: ROUTES.UPDATE_PROFILE,
+      icon: <SettingsOutlinedIcon style={router.asPath === ROUTES.UPDATE_PROFILE ? { fill: 'red' } : { fill: 'white' }} />
     },
     {
       text: 'Favorite movies',
@@ -54,9 +54,9 @@ const Sidebar: React.FC = () => {
       icon: <FavoriteOutlinedIcon style={router.asPath === ROUTES.FAVORITE_MOVIES ? { fill: 'red' } : { fill: 'white' }} />
     },
     {
-      text: 'some',
-      path: 'some route3',
-      icon: <SettingsOutlinedIcon style={router.asPath === 'some route3' ? { fill: 'red' } : { fill: 'white' }} />
+      text: 'Change password',
+      path: ROUTES.CHANGE_PASSWORD,
+      icon:  <LockOutlinedIcon style={router.asPath === ROUTES.CHANGE_PASSWORD ? { fill: 'red' } : { fill: 'white' }} />
     },
   ]
 
