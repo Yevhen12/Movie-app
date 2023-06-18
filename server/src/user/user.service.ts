@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,12 +11,13 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    try {
-      const createdUser = new this.userModel(createUserDto);
-      return createdUser.save();
-    } catch (err) {
-      throw new HttpException('Something gone extremely wrond :(', HttpStatus.NOT_FOUND);
-    }
+    const isUsernameExist = await this.userModel.findOne({ username: createUserDto.username })
+    if (isUsernameExist) {
+      throw new HttpException('This username already exist', HttpStatus.BAD_REQUEST);
+    } 
+
+    const createdUser = new this.userModel(createUserDto);
+    return createdUser.save();
   }
 
   async findAll() {
@@ -32,8 +33,7 @@ export class UserService {
     }
   }
 
-
-  async findOne(id: string) {
+  async findOneById(id: string) {
     try {
       if (!isValidObjectId(id)) {
         throw new HttpException('Wrong id format', HttpStatus.BAD_REQUEST);
@@ -47,7 +47,15 @@ export class UserService {
     } catch (err) {
       throw new HttpException('Error occurs', HttpStatus.BAD_REQUEST)
     }
+  }
 
+  async findOneByUsername(username: string) {
+    const user = await this.userModel.findOne({ username })
+    if (!user) {
+      throw new HttpException("This username doesn't exist", HttpStatus.NOT_FOUND);
+    }
+
+    return user
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {

@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   Controller,
   Get,
@@ -6,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,6 +22,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.userService.findAll();
@@ -28,7 +31,7 @@ export class UserController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     // console.log(id);
-    return this.userService.findOne(id);
+    return this.userService.findOneById(id);
   }
 
   @Patch(':id')
@@ -41,12 +44,3 @@ export class UserController {
     return this.userService.remove(id);
   }
 }
-
-// public class Animal {
-//   public string Name { get; set; }
-//   public int Age { get; set; }
-//   public double AvarageHeight { get; set; }
-//   public bool isMammal { get; set; }
-//   public string[] Food { get; set; }
-//   public Dictionary<string, string>Habitat { get; set; }
-// }
