@@ -20,11 +20,17 @@ export class AuthService {
   }
 
   async login(user: any) {
-    // const payload = { username: user.username, sub: String(user._id) };
-    // console.log('payload', payload)
     return {
       ...user,
-      access_token: this.jwtService.sign(user),
+      access_token: this.jwtService.sign({ ...user }, { expiresIn: '60s' }),
+      refresh_token: this.jwtService.sign({ ...user }, { expiresIn: '30d' })
     };
+  }
+
+  refreshToken(user: any) {
+    console.log('user', user)
+    return {
+      access_token: this.jwtService.sign({ ...user }, { expiresIn: '60s' }),
+    }
   }
 }

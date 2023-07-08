@@ -1,4 +1,3 @@
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import {
   Controller,
   Get,
@@ -12,6 +11,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
