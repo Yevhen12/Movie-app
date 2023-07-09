@@ -1,0 +1,58 @@
+.inputContainer {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.labelInput {
+  color: white;
+}
+.input {
+  margin-bottom: 30px;
+}
+.imageContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  .dragImageBlock {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-base);
+    width: 100%;
+    border: 3px dotted var(--color-border);
+    padding: 20px;
+  }
+
+  .labelUpload {
+    color: var(--color-white);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .input {
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .text {
+    color: var(--color-white);
+  }
+  .description {
+    color: var(--color-border);
+    font-style: italic;
+  }
+}
+
+.buttonBlock {
+  margin-top: 38px;
+  display: flex;
+  justify-content: flex-end;
+}
+

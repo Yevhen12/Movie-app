@@ -2,15 +2,14 @@ import React from 'react'
 import Layout from '@/components/MainLayout/Layout'
 import Sidebar from '@/components/Sidebar/Sidebar'
 import { Container } from '@mui/material'
+import AddMovie from '@/components/screens/AddMovie'
+import { NextPage } from 'next'
 
 
-export default function AddMovie() {
+const AddMoviePage: NextPage = () => {
   return (
-    <Layout>
-      <Container maxWidth='lg'>
-        <p>Add movie</p>
-        <Sidebar />
-      </Container>
-    </Layout>
+    <AddMovie />
   )
 }
+
+export default AddMoviePage

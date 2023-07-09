@@ -29,6 +29,7 @@ const FavoriteMovies: React.FC = () => {
               text='Create'
               variant='outlined'
               icon={<AddCircleIcon className={styles.btnIcon} style={{ fill: "white" }} />}
+              onClick={() => console.log('Created')}
             />
           }
         >

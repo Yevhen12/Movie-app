@@ -45,8 +45,8 @@ const UpdateProfile: React.FC = () => {
             />
           </div>
           <div className={styles.buttonBlock}>
-            <Button variant='contained' text='Delete account' />
-            <Button variant='outlined' text='Update profile' />
+            <Button variant='contained' text='Delete account' onClick={() => console.log('Account deleted')} />
+            <Button variant='outlined' text='Update profile' onClick={() => console.log('Profile updated')}/>
           </div>
         </AdminLayout>
       </Container>

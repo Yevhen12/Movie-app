@@ -27,6 +27,7 @@ const Users: React.FC = () => {
             <Button
               text='Delete all members'
               variant='outlined'
+              onClick={() => console.log('Deleted')}
             />
           }
         >

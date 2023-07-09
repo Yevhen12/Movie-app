@@ -21,7 +21,7 @@ const MoviesList: React.FC = () => {
       <Container maxWidth='lg'>
         <AdminLayout
           title='Movies List'
-          btn={<Button text='Delete all' variant='outlined' />}
+          btn={<Button text='Delete all' variant='outlined' onClick={() => console.log('deleted')} />}
         >
           <FilmTable films={MOCK_FILMS} />
         </AdminLayout>

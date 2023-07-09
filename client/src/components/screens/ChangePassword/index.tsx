@@ -43,7 +43,7 @@ const ChangePassword: React.FC = () => {
             />
           </div>
           <div className={styles.buttonBlock}>
-            <Button variant='outlined' text='Change password' />
+            <Button variant='outlined' text='Change password' onClick={() => console.log('password changed')} />
           </div>
         </AdminLayout>
       </Container>
