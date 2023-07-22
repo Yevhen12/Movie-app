@@ -1,25 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Body, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UploadService } from './upload.service';
-import { CreateUploadDto } from './dto/create-upload.dto';
-import { UpdateUploadDto } from './dto/update-upload.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { UploadType } from 'src/contstants/upload';
 
 @Controller('upload')
 export class UploadController {
-  constructor(private readonly uploadService: UploadService) {}
+  constructor(private readonly uploadService: UploadService) { }
 
   @Post()
-  @UseInterceptors(FileInterceptor('file', {
-    storage: diskStorage({
-      destination: "./uploads/movies",
-      filename: (req, file, cb) => {
-        cb(null, `${file.originalname}--ß`)
-      }
-    })
-  }))
-  uploadMovie(@UploadedFile() file: Express.Multer.File) {
-    console.log('file', file)
-    return "success"
+  @UseInterceptors(FileInterceptor('file'))
+  uploadObject(@UploadedFile() file: Express.Multer.File) {
+    return this.uploadService.uploadObject(file.originalname, file.buffer, UploadType.MOVIE_VIDEO)
+  }
+
+  @Delete()
+  deleteObject(@Body() { filename, folder }) {
+    return this.uploadService.deleteObject(filename, folder)
+  }
+
+  @Delete('/all')
+  async deleteAllMovies(@Body() { folder }: { folder: string }) {
+    console.log('folder', folder)
+    return this.uploadService.deleteAllObjectsFromSpecifivFolder(UploadType.MOVIE_VIDEO)
   }
 }

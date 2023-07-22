@@ -43,7 +43,6 @@ const AddMovie: React.FC = () => {
         <AdminLayout
           title='Create Movie'
         >
-          <img src='http://localhost:7777/movies/image.png' />
           <div className={styles.imageContainer}>
             <Paper elevation={1} className={styles.dragImageBlock}>
               <label className={styles.labelUpload}>
