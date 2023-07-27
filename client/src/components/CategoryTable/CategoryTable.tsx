@@ -9,6 +9,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import styles from './CategoryTable.module.scss'
+import { getCounter, setCounter } from '@/redux/slices/counterSlice';
+import useAppSelector from '@/hooks/useAppSelector';
+import { AppState } from '@/redux/store';
+import useAppDispatch from '@/hooks/useAppDispatch';
+import { userService } from '@/services/user.service';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -44,16 +49,31 @@ function createData(
 }
 
 const rows = [
-    createData('43647f8y', "November 22, 2022", "Romance"),
-    createData('43647f8y', "November 22, 2022", "Romance"),
-    createData('43647f8y', "November 22, 2022", "Romance"),
-    createData('43647f8y', "November 22, 2022", "Romance"),
-    createData('43647f8y', "November 22, 2022", "Romance"),
+    createData('434647f38y', "November 22, 2022", "Romance"),
+    createData('4364g73f8y', "November 22, 2022", "Romance"),
+    createData('43644f7f8y', "November 22, 2022", "Romance"),
+    createData('4364d7rf8y', "November 22, 2022", "Romance"),
+    createData('436473f8y', "November 22, 2022", "Romance"),
 ];
 
 const CategoryTable: React.FC<{ categories: any }> = ({ categories }) => {
+    const dispatch = useAppDispatch();
+    const { counter } = useAppSelector(getCounter)
+    React.useEffect(() => {
+        const getAllUsers = async () => {
+            const users = await userService.getAll()
+            console.log('users', users)
+        }
+        console.log(userService)
+
+        getAllUsers()
+    }, [])
+    console.log('some', counter)
     return (
         <TableContainer style={{ marginTop: '20px' }} component={Paper}>
+            <Button className={styles.editBtn} onClick={() => dispatch(setCounter(5))}>
+                Edit
+            </Button>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
@@ -70,8 +90,8 @@ const CategoryTable: React.FC<{ categories: any }> = ({ categories }) => {
                             <StyledTableCell align="center">{row.date}</StyledTableCell>
                             <StyledTableCell align="right">{row.category}</StyledTableCell>
                             <StyledTableCell align="right">
-                            <div className='btnContainer'>
-                                    <Button className={styles.editBtn}>
+                                <div className='btnContainer'>
+                                    <Button className={styles.editBtn} onClick={() => dispatch(setCounter(5))}>
                                         Edit
                                     </Button>
                                     <Button className={styles.deleteBtn}>

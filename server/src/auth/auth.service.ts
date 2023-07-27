@@ -22,7 +22,7 @@ export class AuthService {
   async login(user: any) {
     return {
       ...user,
-      access_token: this.jwtService.sign({ ...user }, { expiresIn: '60s' }),
+      access_token: this.jwtService.sign({ ...user }, { expiresIn: '30d' }),
       refresh_token: this.jwtService.sign({ ...user }, { expiresIn: '30d' })
     };
   }
@@ -30,7 +30,7 @@ export class AuthService {
   refreshToken(user: any) {
     console.log('user', user)
     return {
-      access_token: this.jwtService.sign({ ...user }, { expiresIn: '60s' }),
+      access_token: this.jwtService.sign({ ...user }, { expiresIn: '30d' }),
     }
   }
 }

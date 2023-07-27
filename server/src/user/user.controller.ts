@@ -22,10 +22,11 @@ export class UserController {
     console.log('createUserDto', createUserDto)
     return this.userService.create(createUserDto);
   }
-
-  @UseGuards(JwtAuthGuard)
+  
+  // @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
+    console.log('made request')
     return this.userService.findAll();
   }
 

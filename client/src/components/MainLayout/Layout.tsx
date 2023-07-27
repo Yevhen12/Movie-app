@@ -5,7 +5,7 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
   return (
     <>
       <Header />
-      <main className="main">{children}</main>
+      <main style={{height: 'calc(100% - 96px)'}} className="main">{children}</main>
       {/* <Footer />
       <BottomNavigation /> */}
     </>

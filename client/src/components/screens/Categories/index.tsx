@@ -10,12 +10,12 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 const MOCK_CATEGORIES = [
-  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
-  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
-  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
-  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
-  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
-  { id: "434jf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434jdf42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434jf342", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434j4f42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434j16f42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434j1f42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
+  { id: "434j2f42", date: "November 22, 2022", category: "Romance", actions: [ACTIONS.DELETE, ACTIONS.EDIT] },
 ]
 
 const FavoriteMovies: React.FC = () => {
