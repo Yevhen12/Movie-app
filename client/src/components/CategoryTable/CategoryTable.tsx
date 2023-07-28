@@ -13,7 +13,7 @@ import { getCounter, setCounter } from '@/redux/slices/counterSlice';
 import useAppSelector from '@/hooks/useAppSelector';
 import { AppState } from '@/redux/store';
 import useAppDispatch from '@/hooks/useAppDispatch';
-import { userService } from '@/services/user.service';
+import { userService } from '@/services/api/user.service';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

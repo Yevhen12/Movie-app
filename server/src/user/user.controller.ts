@@ -26,7 +26,6 @@ export class UserController {
   // @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
-    console.log('made request')
     return this.userService.findAll();
   }
 

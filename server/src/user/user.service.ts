@@ -1,23 +1,38 @@
+import { UserType } from './types';
 import { HttpException, HttpStatus, Injectable, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 import { isValidObjectId } from '../utils/isValidObjectId';
+import { encodePassword } from 'src/utils/bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) { }
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto) {
     const isUsernameExist = await this.userModel.findOne({ username: createUserDto.username })
     if (isUsernameExist) {
       throw new HttpException('This username already exist', HttpStatus.BAD_REQUEST);
-    } 
+    }
 
-    const createdUser = new this.userModel(createUserDto);
-    return createdUser.save();
+    const isEmailExist = await this.userModel.findOne({ email: createUserDto.email }).exec()
+    if (isEmailExist) {
+      throw new HttpException('This email already exist', HttpStatus.BAD_REQUEST);
+    }
+
+    const hashedPassword = encodePassword(createUserDto.password)
+
+    const createdUser = new this.userModel({
+      ...createUserDto,
+      role: 'user',
+      password: hashedPassword
+    });
+    const result = await createdUser.save();
+    const { password, ...other } = result.toObject()
+    return other
   }
 
   async findAll() {

@@ -4,11 +4,13 @@ import { createWrapper } from 'next-redux-wrapper';
 import { IS_DEV } from '@/constants/common';
 
 import { counterReducer } from './slices/counterSlice';
+import usersReducer from './slices/userSlice';
 
 export function makeStore() {
   return configureStore({
     reducer: {
-      counter: counterReducer
+      counter: counterReducer,
+      users: usersReducer
     },
     devTools: IS_DEV,
   });

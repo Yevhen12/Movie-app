@@ -10,7 +10,9 @@ enum ROUTES {
     MOVIES = '/movies',
     FAVORITE_MOVIES = '/favorite-movies',
     UPDATE_PROFILE = '/update-profile',
-    CHANGE_PASSWORD = '/change-password'
+    CHANGE_PASSWORD = '/change-password',
+    LOGIN = '/login',
+    SIGN_UP = '/sign-up',
 }
 
 export default ROUTES

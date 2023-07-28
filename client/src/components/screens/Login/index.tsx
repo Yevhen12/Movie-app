@@ -6,28 +6,47 @@ import styles from './Login.module.scss'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import useAppDispatch from '@/hooks/useAppDispatch'
+import { getAuthErrors, getStatus, signIn, statusReset } from '@/redux/slices/userSlice'
+import useAppSelector from '@/hooks/useAppSelector'
+import { RequestStatuses } from '@/constants/enums'
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes'
 
 interface IForm {
-  email: string
+  username: string
   password: string
 }
 
 const schema = z.object({
-  email: z.string().email('Invalid email'),
+  username: z.string(),
   password: z.string().min(5, { message: 'Minimum 5 characters' }).max(32, { message: 'Maximum 32 characters' }),
 });
 
 const Login: React.FC = () => {
-  const [userData, setUserData] = useState<IForm | null>(null)
-  const { register, handleSubmit, formState } = useForm({ resolver: zodResolver(schema), })
+  const dispatch = useAppDispatch()
+  const status = useAppSelector(getStatus())
+  const errorMessage = useAppSelector(getAuthErrors())
+  const state = useAppSelector(state => state)
+  const { register, handleSubmit, formState } = useForm({ resolver: zodResolver(schema) })
+  const router = useRouter()
   const { errors } = formState
 
-  const handleSave = (formValue: any) => {
-    setUserData(formValue)
+  const handleSave = async (formValue: any) => {
+    dispatch(signIn({ payload: formValue }))
   }
 
-  const isEmailError = !!errors.email?.message
+  console.log('--', status)
+
+  const isUsernameError = !!errors.username?.message
   const isPasswordError = !!errors.password?.message
+  const isErrorAfterSubmit = status === RequestStatuses.FAILED
+
+  if(status === RequestStatuses.SUCCEEDED) {
+    router.replace(`${ROUTES.SIGN_UP}`)
+  }
+
+  console.log('state', state)
 
   return (
     <Layout>
@@ -36,16 +55,16 @@ const Login: React.FC = () => {
           <Paper elevation={1} className={styles.sidebar}>
             <div className={styles.inputContainer}>
               <TextField
-                error={isEmailError}
-                {...register('email')}
+                error={isUsernameError}
+                {...register('username')}
                 className={styles.input}
-                label="Email"
+                label="Username"
                 InputLabelProps={{
                   className: styles.labelInput,
                 }}
                 placeholder="Login"
                 variant="outlined"
-                helperText={`${isEmailError ? errors.email?.message : ''}`}
+                helperText={`${isUsernameError ? errors.username?.message : ''}`}
               />
               <TextField
                 error={isPasswordError}
@@ -59,6 +78,9 @@ const Login: React.FC = () => {
                 variant="outlined"
                 helperText={`${isPasswordError ? errors.password?.message : ''}`}
               />
+            </div>
+            <div className={styles.errorContainer}>
+              {isErrorAfterSubmit && <p className={styles.errorText}>{errorMessage}</p>}
             </div>
             <Button
               text='Login'

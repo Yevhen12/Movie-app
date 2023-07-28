@@ -42,4 +42,17 @@
     display: flex;
     justify-content: center;
   }
+
+  & .errorContainer {
+    height: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & .errorText {
+      font-weight: 600;
+      color: var(--color-red);
+    }
+  }
 }

@@ -4,7 +4,8 @@
 import { ActionType } from "../types/actionsTypes"
 
 export const Actions: ActionType = {
-  COUNTER: 'counter'
+  COUNTER: 'counter',
+  USERS: 'users'
 }
 
 

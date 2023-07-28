@@ -6,6 +6,7 @@ import styles from './Signup.module.scss'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import useAppSelector from '@/hooks/useAppSelector'
 
 interface IForm {
   fullname: string
@@ -23,6 +24,7 @@ const Signup: React.FC = () => {
   const [userData, setUserData] = useState<IForm>()
   const { register, handleSubmit, formState } = useForm({ resolver: zodResolver(schema) })
   const { errors } = formState
+  const state = useAppSelector(state => state)
 
   const handleSave = (formValue: any) => {
     setUserData(formValue)
@@ -31,6 +33,8 @@ const Signup: React.FC = () => {
   const isFullnameError = !!errors.fullname?.message
   const isEmailError = !!errors.email?.message
   const isPasswordError = !!errors.password?.message
+
+  console.log('state', state)
 
   return (
     <Layout>

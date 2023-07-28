@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Movie } from './schemas/movie.schema';
+import { Movie, MovieDocument } from './schemas/movie.schema';
 import { Model } from 'mongoose';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
@@ -12,11 +12,15 @@ import { isValidObjectId } from 'src/utils/isValidObjectId';
 @Injectable()
 export class MovieService {
   constructor(
-    @InjectModel(Movie.name) private movieModel: Model<Movie>,
+    @InjectModel(Movie.name) private movieModel: Model<MovieDocument>,
     private readonly uploadService: UploadService
   ) { }
 
   async createMovie(createMovieDto: CreateMovieDto, movie: Express.Multer.File, photo: Express.Multer.File) {
+    const { status, message } = await this.isMovieExist(createMovieDto.name)
+    if(status === HttpStatus.OK) {
+      throw new HttpException(message, HttpStatus.BAD_REQUEST)
+    }
     const uploadMovieResponse = await this.uploadService.uploadObject(movie.originalname, movie.buffer, UploadType.MOVIE_VIDEO)
     if (uploadMovieResponse.status !== 200) {
       throw new HttpException('Something gone wrong with video upload :(', HttpStatus.BAD_REQUEST);
@@ -98,17 +102,32 @@ export class MovieService {
 
   async removeAll() {
     const deletedMoviesResponse = await this.uploadService.deleteAllObjectsFromSpecifivFolder(UploadType.MOVIE_VIDEO)
-    if(deletedMoviesResponse.status !== 200) {
+    if (deletedMoviesResponse.status !== 200) {
       throw new HttpException('Something gone wrong with movies removal :(', HttpStatus.BAD_REQUEST);
     }
 
     const deletedPhotosResponse = await this.uploadService.deleteAllObjectsFromSpecifivFolder(UploadType.MOVIE_PREVIEW)
-    if(deletedPhotosResponse.status !== 200) {
+    if (deletedPhotosResponse.status !== 200) {
       throw new HttpException('Something gone wrong with previews removal :(', HttpStatus.BAD_REQUEST);
     }
     const result = await this.movieModel.deleteMany({})
 
     console.log('result', result)
     return result.deletedCount
+  }
+
+  async isMovieExist(name: string) {
+    const isExist = await this.movieModel.exists({ name })
+    if (isExist) {
+      return {
+        status: HttpStatus.OK,
+        message: 'Movie with such name already exist'
+      }
+    }
+
+    return {
+      status: HttpStatus.NOT_FOUND,
+      message: "Not found such movie"
+    }
   }
 }
