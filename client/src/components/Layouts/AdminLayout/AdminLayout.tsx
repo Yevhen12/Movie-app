@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react'
 import { Paper } from '@mui/material'
 import styles from './AdminLayout.module.scss'
-import Sidebar from '../Sidebar/Sidebar'
+import Sidebar from '../../Sidebar/Sidebar'
 
 interface AdminLayoutProps {
   title: string

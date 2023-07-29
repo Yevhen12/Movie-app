@@ -7,12 +7,18 @@ interface ButtonProps {
   icon?: React.ReactElement
   variant?: 'contained' | 'outlined'
   style?: any
-  onClick: (e?:React.MouseEvent<HTMLElement, MouseEvent>) => void
+  onClick: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void
+  disabled?: boolean
 }
 
-const Button: React.FC<PropsWithChildren<ButtonProps>> = ({ text, variant = 'contained', icon, onClick, style = {} }) => {
+const Button: React.FC<PropsWithChildren<ButtonProps>> = ({ text, variant = 'contained', icon, onClick, style = {}, disabled }) => {
   return (
-    <MUIButton style={style} onClick={onClick} className={variant === 'contained' ? styles.contained : styles.outlined}>
+    <MUIButton
+      style={style}
+      onClick={onClick}
+      className={variant === 'contained' ? styles.contained : styles.outlined}
+      disabled={disabled}
+    >
       {icon && icon}
       {text}
     </MUIButton>

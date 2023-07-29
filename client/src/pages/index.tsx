@@ -5,7 +5,7 @@ import styles from '@/styles/Home.module.scss'
 import { Button } from '@mui/material'
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import Header from '@/components/Header/Header'
-import Layout from '@/components/MainLayout/Layout'
+import Layout from '@/components/Layouts/MainLayout/Layout'
 
 const inter = Inter({ subsets: ['latin'] })
 

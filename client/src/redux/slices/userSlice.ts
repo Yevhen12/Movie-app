@@ -53,7 +53,11 @@ const usersSlice = createSlice({
     },
     statusReset: (state: UserInitialState) => {
       state.status = null
-    }
+    },
+    userLoggedOut: (state: UserInitialState) => {
+      state.isLoggedIn = false;
+      state.auth.userId = null;
+    },
   },
 });
 
@@ -64,6 +68,7 @@ export const {
   authRequestSuccess,
   authRequestFailed,
   statusReset,
+  userLoggedOut,
 } = actions;
 
 export const signIn =
@@ -76,7 +81,7 @@ export const signIn =
         localStorageService.setTokens(data);
         dispatch(authRequestSuccess({ userId: data._id }));
       } catch (error: any) {
-        if(error instanceof AxiosError) {
+        if (error instanceof AxiosError) {
           dispatch(authRequestFailed(error.response?.data?.message));
         } else {
           dispatch(authRequestFailed(error.message));
@@ -96,6 +101,11 @@ export const signUp =
         dispatch(authRequestFailed(error.message));
       }
     };
+  
+export const logOut = (): ReduxThunk => async dispatch => {
+  localStorageService.removeAuthData();
+  dispatch(userLoggedOut());
+};
 
 // export const getCurrentUserData = () => (state: RootState) => {
 //   if (state.users.auth) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Header.module.scss'
-import { Avatar, InputAdornment, TextField } from '@mui/material'
+import { Avatar, Button, InputAdornment, TextField } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
 import { Container } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -8,6 +8,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import Link from 'next/link'
 import { useRouter } from 'next/router';
 import ROUTES from '../../constants/routes'
+import useAppSelector from '@/hooks/useAppSelector'
+import { getIsLoggedIn, logOut } from '@/redux/slices/userSlice'
+import useAppDispatch from '@/hooks/useAppDispatch'
+
 
 type MenuType = {
   text: string;
@@ -22,6 +26,13 @@ const menu: MenuType = [
 
 const Header: React.FC = () => {
   const router = useRouter()
+  const isLoggedIn = useAppSelector(getIsLoggedIn())
+  const dispatch = useAppDispatch()
+
+  const logOutHandler = () => {
+    dispatch(logOut())
+    router.replace(ROUTES.LOGIN)
+  }
 
   const menuItems: React.ReactElement[] = menu.map((menuItem, id) => (
     <li key={id}>
@@ -57,11 +68,32 @@ const Header: React.FC = () => {
             <ul className={styles.list}>
               {menuItems}
               <li>
-                <Link href='dashboard'>
-                  <Avatar sx={{ width: 30, height: 30 }}>
-                    H
-                  </Avatar>
-                </Link>
+                {isLoggedIn ? (
+                  <div className={styles.buttons}>
+                    <Link href='dashboard' style={{ marginRight: '30px' }}>
+                      <Avatar sx={{ width: 30, height: 30 }}>
+                        H
+                      </Avatar>
+                    </Link>
+                    <Button onClick={logOutHandler} style={{color: 'red'}}>
+                      Log out
+                    </Button>
+                  </div>
+                ) : (
+                  <div className={styles.buttons}>
+                    <Link
+                      style={{ marginRight: '30px' }}
+                      href={ROUTES.LOGIN}
+                    >
+                      Sign in
+                    </Link>
+                    <Link
+                      href={ROUTES.SIGN_UP}
+                    >
+                      Sign up
+                    </Link>
+                  </div>
+                )}
               </li>
               <li>
                 <FavoriteIcon sx={{ width: 30, height: 30 }} />

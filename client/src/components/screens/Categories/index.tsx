@@ -1,12 +1,13 @@
 import React from 'react'
-import Layout from '@/components/MainLayout/Layout'
+import Layout from '@/components/Layouts/MainLayout/Layout'
 import { Container } from '@mui/material'
-import AdminLayout from '@/components/AdminLayout/AdminLayout'
+import AdminLayout from '@/components/Layouts/AdminLayout/AdminLayout'
 import CategoryTable from '@/components/CategoryTable/CategoryTable'
 import styles from './Categories.module.scss'
 import Button from '@/components/Button/Button'
 import { ACTIONS } from '../../../constants/btnActions'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AuthLayout from '@/components/Layouts/AuthLayout/AuthLayout'
 
 
 const MOCK_CATEGORIES = [
@@ -20,23 +21,25 @@ const MOCK_CATEGORIES = [
 
 const FavoriteMovies: React.FC = () => {
   return (
-    <Layout>
-      <Container maxWidth='lg'>
-        <AdminLayout
-          title='Favorites Movies'
-          btn={
-            <Button
-              text='Create'
-              variant='outlined'
-              icon={<AddCircleIcon className={styles.btnIcon} style={{ fill: "white" }} />}
-              onClick={() => console.log('Created')}
-            />
-          }
-        >
-          <CategoryTable categories={MOCK_CATEGORIES} />
-        </AdminLayout>
-      </Container>
-    </Layout>
+    <AuthLayout>
+      <Layout>
+        <Container maxWidth='lg'>
+          <AdminLayout
+            title='Favorites Movies'
+            btn={
+              <Button
+                text='Create'
+                variant='outlined'
+                icon={<AddCircleIcon className={styles.btnIcon} style={{ fill: "white" }} />}
+                onClick={() => console.log('Created')}
+              />
+            }
+          >
+            <CategoryTable categories={MOCK_CATEGORIES} />
+          </AdminLayout>
+        </Container>
+      </Layout>
+    </AuthLayout>
 
   )
 }

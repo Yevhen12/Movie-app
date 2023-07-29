@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Layout from '@/components/MainLayout/Layout'
+import Layout from '@/components/Layouts/MainLayout/Layout'
 import { Container, Paper, TextField } from '@mui/material'
 import Button from '@/components/Button/Button'
 import styles from './Signup.module.scss'
@@ -9,26 +9,31 @@ import * as z from 'zod';
 import useAppSelector from '@/hooks/useAppSelector'
 
 interface IForm {
-  fullname: string
+  username: string
   email: string
   password: string
 }
 
 const schema = z.object({
-  fullname: z.string(),
+  username: z.string(),
   email: z.string().email('Invalid email'),
   password: z.string().min(5, { message: 'Minimum 5 characters' }).max(32, { message: 'Maximum 32 characters' }),
 });
 
 const Signup: React.FC = () => {
-  const [userData, setUserData] = useState<IForm>()
-  const { register, handleSubmit, formState } = useForm({ resolver: zodResolver(schema) })
+  const { register, handleSubmit, formState, watch } = useForm({ resolver: zodResolver(schema) })
   const { errors } = formState
   const state = useAppSelector(state => state)
 
   const handleSave = (formValue: any) => {
-    setUserData(formValue)
+    // setUserData(formValue)
   }
+
+
+  const isSubmitBtnDisabled =
+    (watch('username') ? watch('username')?.length < 1 : true) ||
+    (watch('password') ? watch('password')?.length < 6 : true) ||
+    (watch('email') ? watch('email')?.length < 3 : true)
 
   const isFullnameError = !!errors.fullname?.message
   const isEmailError = !!errors.email?.message
@@ -43,14 +48,14 @@ const Signup: React.FC = () => {
           <Paper elevation={1} className={styles.sidebar}>
             <div className={styles.inputContainer}>
               <TextField
-                {...register('fullname')}
+                {...register('username')}
                 error={isFullnameError}
                 className={styles.input}
-                label="Fullname"
+                label="Username"
                 InputLabelProps={{
                   className: styles.labelInput,
                 }}
-                placeholder='Fullname'
+                placeholder='Username'
                 variant="outlined"
                 helperText={`${isFullnameError ? errors.fullname?.message : ''}`}
               />
@@ -84,7 +89,8 @@ const Signup: React.FC = () => {
               text='Signup'
               onClick={handleSubmit(handleSave)}
               variant='contained'
-              style={{ width: '100%' }}
+              style={isSubmitBtnDisabled ? { backgroundColor: 'gray', color: 'white', width: '100%' } : { width: '100%' }}
+              disabled={isSubmitBtnDisabled}
             />
             <div className={styles.bottomTextContainer}>
               <p className={styles.bottomText}>Already have an account?

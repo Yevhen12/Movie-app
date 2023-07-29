@@ -1,13 +1,16 @@
 import { FC, PropsWithChildren } from 'react';
-import Header from '../Header/Header';
+
+import dynamic from 'next/dynamic'
+
+const DynamicHeader = dynamic(() => import('../../Header/Header'), {
+  ssr: false,
+})
 
 const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
   return (
     <>
-      <Header />
+      <DynamicHeader />
       <main style={{height: 'calc(100% - 96px)'}} className="main">{children}</main>
-      {/* <Footer />
-      <BottomNavigation /> */}
     </>
   );
 };

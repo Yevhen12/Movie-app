@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import Layout from '@/components/MainLayout/Layout'
+import React, { useEffect, useState } from 'react'
+import Layout from '@/components/Layouts/MainLayout/Layout'
 import { Container, Paper, TextField } from '@mui/material'
 import Button from '@/components/Button/Button'
 import styles from './Login.module.scss'
@@ -28,25 +28,27 @@ const Login: React.FC = () => {
   const status = useAppSelector(getStatus())
   const errorMessage = useAppSelector(getAuthErrors())
   const state = useAppSelector(state => state)
-  const { register, handleSubmit, formState } = useForm({ resolver: zodResolver(schema) })
+  const { register, handleSubmit, formState, watch } = useForm({ resolver: zodResolver(schema) })
   const router = useRouter()
   const { errors } = formState
+
+  useEffect(() => {
+    if (status === RequestStatuses.SUCCEEDED) {
+      router.replace(`${ROUTES.HOME}`)
+    }
+  }, [status])
 
   const handleSave = async (formValue: any) => {
     dispatch(signIn({ payload: formValue }))
   }
 
-  console.log('--', status)
+  const isSubmitBtnDisabled =
+    (watch('username') ? watch('username')?.length < 1 : true) ||
+    (watch('password') ? watch('password')?.length < 6 : true)
 
   const isUsernameError = !!errors.username?.message
   const isPasswordError = !!errors.password?.message
   const isErrorAfterSubmit = status === RequestStatuses.FAILED
-
-  if(status === RequestStatuses.SUCCEEDED) {
-    router.replace(`${ROUTES.SIGN_UP}`)
-  }
-
-  console.log('state', state)
 
   return (
     <Layout>
@@ -86,7 +88,8 @@ const Login: React.FC = () => {
               text='Login'
               onClick={handleSubmit(handleSave)}
               variant='contained'
-              style={{ width: '100%' }}
+              style={isSubmitBtnDisabled ? { backgroundColor: 'gray', color: 'white', width: '100%' } : { width: '100%' }}
+              disabled={isSubmitBtnDisabled}
             />
             <div className={styles.bottomTextContainer}>
               <p className={styles.bottomText}>Don't have an account?
