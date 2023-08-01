@@ -45,7 +45,7 @@ export class AuthService {
     const createdUser = new this.userModel({
       ...createUserDto,
       role: 'user',
-      password: hashedPassword
+      password: hashedPassword,
     });
     const result = await createdUser.save();
     const { password, ...other } = result.toObject()

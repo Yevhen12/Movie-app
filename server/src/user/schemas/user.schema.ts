@@ -17,7 +17,7 @@ export class User {
   username: string;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Movie' })
-  likedMovies: Movie[];
+  likedMovies: string;
 
   @Prop({ default: DEFAULT_USER_AVATAR_URL })
   avatarPhoto: string;

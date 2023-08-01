@@ -6,8 +6,9 @@ import localStorageService from '@/services/localStorage.service';
 import { Actions } from '../featureKeys';
 import { RequestStatuses } from '@/constants/enums';
 import { AxiosError } from 'axios';
+import { UserSliceType } from '../types/slicesTypes';
 
-type UserInitialState = {
+export type UserInitialState = {
   isLoading: boolean;
   error: string | null;
   auth: {
@@ -42,7 +43,6 @@ const usersSlice = createSlice({
       state.status = RequestStatuses.REQUESTED;
     },
     authRequestSuccess: (state: UserInitialState, action) => {
-      console.log(action)
       state.auth = action.payload;
       state.isLoggedIn = true;
       state.status = RequestStatuses.SUCCEEDED
@@ -51,8 +51,20 @@ const usersSlice = createSlice({
       state.error = action.payload;
       state.status = RequestStatuses.FAILED
     },
+    signUpRequested: (state: UserInitialState) => {
+      state.error = null;
+      state.status = RequestStatuses.REQUESTED;
+    },
+    signUpRequestSuccess: (state: UserInitialState) => {
+      state.status = RequestStatuses.SUCCEEDED
+    },
+    signUpRequestFailed: (state: UserInitialState, action) => {
+      state.error = action.payload;
+      state.status = RequestStatuses.FAILED
+    },
     statusReset: (state: UserInitialState) => {
       state.status = null
+      state.error = null
     },
     userLoggedOut: (state: UserInitialState) => {
       state.isLoggedIn = false;
@@ -69,6 +81,9 @@ export const {
   authRequestFailed,
   statusReset,
   userLoggedOut,
+  signUpRequested,
+  signUpRequestSuccess,
+  signUpRequestFailed,
 } = actions;
 
 export const signIn =
@@ -92,16 +107,19 @@ export const signIn =
 export const signUp =
   (payload: SignUpDataType): ReduxThunk =>
     async dispatch => {
-      dispatch(authRequested());
+      dispatch(signUpRequested());
       try {
-        const data = await authService.signUp(payload);
-        localStorageService.setTokens(data);
-        dispatch(authRequestSuccess({ userId: data.userId }));
+        await authService.signUp(payload);
+        dispatch(signUpRequestSuccess());
       } catch (error: any) {
-        dispatch(authRequestFailed(error.message));
+        if (error instanceof AxiosError) {
+          dispatch(signUpRequestFailed(error.response?.data?.message));
+        } else {
+          dispatch(signUpRequestFailed(error.message));
+        }
       }
     };
-  
+
 export const logOut = (): ReduxThunk => async dispatch => {
   localStorageService.removeAuthData();
   dispatch(userLoggedOut());

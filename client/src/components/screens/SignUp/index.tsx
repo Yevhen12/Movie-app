@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '@/components/Layouts/MainLayout/Layout'
 import { Container, Paper, TextField } from '@mui/material'
 import Button from '@/components/Button/Button'
 import styles from './Signup.module.scss'
-import { useForm } from 'react-hook-form'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import useAppSelector from '@/hooks/useAppSelector'
+import { RequestStatuses } from '@/constants/enums'
+import ROUTES from '@/constants/routes'
+import router from 'next/router'
+import { getAuthErrors, getStatus, signUp, statusReset } from '@/redux/slices/userSlice'
+import useAppDispatch from '@/hooks/useAppDispatch'
 
 interface IForm {
   username: string
@@ -23,12 +28,23 @@ const schema = z.object({
 const Signup: React.FC = () => {
   const { register, handleSubmit, formState, watch } = useForm({ resolver: zodResolver(schema) })
   const { errors } = formState
+  const dispatch = useAppDispatch()
   const state = useAppSelector(state => state)
+  const status = useAppSelector(getStatus())
+  const errorMessage = useAppSelector(getAuthErrors())
 
-  const handleSave = (formValue: any) => {
-    // setUserData(formValue)
+  const handleSave = async (formValue: FieldValues) => {
+    dispatch(signUp(formValue as IForm))
   }
 
+  useEffect(() => {
+    if (status === RequestStatuses.SUCCEEDED) {
+      dispatch(statusReset())
+      router.replace(`${ROUTES.LOGIN}`)
+    }
+  }, [status])
+
+  console.log('errror', errorMessage)
 
   const isSubmitBtnDisabled =
     (watch('username') ? watch('username')?.length < 1 : true) ||
@@ -38,6 +54,7 @@ const Signup: React.FC = () => {
   const isFullnameError = !!errors.fullname?.message
   const isEmailError = !!errors.email?.message
   const isPasswordError = !!errors.password?.message
+  const isErrorAfterSubmit = status === RequestStatuses.FAILED
 
   console.log('state', state)
 
@@ -85,6 +102,9 @@ const Signup: React.FC = () => {
 
               />
             </div>
+            <div className={styles.errorContainer}>
+              {isErrorAfterSubmit && <p className={styles.errorText}>{errorMessage}</p>}
+            </div>
             <Button
               text='Signup'
               onClick={handleSubmit(handleSave)}
@@ -94,7 +114,7 @@ const Signup: React.FC = () => {
             />
             <div className={styles.bottomTextContainer}>
               <p className={styles.bottomText}>Already have an account?
-                <span className={styles.signUpText}> Log in</span>
+                <span className={styles.signUpTerrorTextext} onClick={() => router.replace(ROUTES.LOGIN)}> Log in</span>
               </p>
             </div>
           </Paper>

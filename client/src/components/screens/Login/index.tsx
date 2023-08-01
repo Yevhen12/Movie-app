@@ -34,6 +34,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (status === RequestStatuses.SUCCEEDED) {
+      dispatch(statusReset())
       router.replace(`${ROUTES.HOME}`)
     }
   }, [status])
@@ -93,7 +94,7 @@ const Login: React.FC = () => {
             />
             <div className={styles.bottomTextContainer}>
               <p className={styles.bottomText}>Don't have an account?
-                <span className={styles.signUpText}> Sign up</span>
+                <span className={styles.signUpText} onClick={() => router.replace(ROUTES.SIGN_UP)}> Sign up</span>
               </p>
             </div>
           </Paper>
