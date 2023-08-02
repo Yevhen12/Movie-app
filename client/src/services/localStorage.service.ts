@@ -3,8 +3,8 @@ const REFRESH_KEY = 'jwt-refresh-token';
 const EXPIRES_KEY = 'jwt-expires';
 const USER_ID_KEY = 'user-local-id';
 
-type SetTokensProps = {
-  expiresIn: number;
+export type SetTokensProps = {
+  expiresIn?: number;
   access_token: string;
   _id: string;
   refresh_token: string;

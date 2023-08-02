@@ -2,11 +2,14 @@ import { SignInDataType, SignUpDataType } from '@/dto';
 import { AppState, ReduxThunk } from '../store';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import authService from '@/services/api/auth.service';
-import localStorageService from '@/services/localStorage.service';
+import localStorageService, { SetTokensProps } from '@/services/localStorage.service';
 import { Actions } from '../featureKeys';
 import { RequestStatuses } from '@/constants/enums';
 import { AxiosError } from 'axios';
 import { UserSliceType } from '../types/slicesTypes';
+import { deleteCookie, setCookie } from 'cookies-next';
+import { IUser } from '@/types/types';
+import { ACCESS_TOKEN } from '@/constants/common';
 
 export type UserInitialState = {
   isLoading: boolean;
@@ -92,8 +95,15 @@ export const signIn =
       const { username, password } = payload;
       dispatch(authRequested());
       try {
-        const data = await authService.signIn({ username, password });
-        localStorageService.setTokens(data);
+        const data: IUser = await authService.signIn({ username, password });
+        const { access_token, refresh_token, _id } = data
+        const localTokensObject: SetTokensProps = {
+          access_token,
+          refresh_token,
+          _id
+        }
+        localStorageService.setTokens(localTokensObject);
+        setCookie(ACCESS_TOKEN, data.access_token)
         dispatch(authRequestSuccess({ userId: data._id }));
       } catch (error: any) {
         if (error instanceof AxiosError) {
@@ -122,6 +132,7 @@ export const signUp =
 
 export const logOut = (): ReduxThunk => async dispatch => {
   localStorageService.removeAuthData();
+  deleteCookie(ACCESS_TOKEN)
   dispatch(userLoggedOut());
 };
 

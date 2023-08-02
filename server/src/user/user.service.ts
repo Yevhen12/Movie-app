@@ -7,10 +7,14 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { isValidObjectId } from '../utils/isValidObjectId';
 import { encodePassword } from 'src/utils/bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private readonly jwtService: JwtService
+    ) { }
 
   async create(createUserDto: CreateUserDto) {
     const isUsernameExist = await this.userModel.findOne({ username: createUserDto.username })
@@ -105,5 +109,13 @@ export class UserService {
     } catch (err) {
       throw new HttpException('Error occurs', HttpStatus.BAD_REQUEST)
     }
+  }
+
+  async getMe(token: string) {
+    const decodedUser = this.jwtService.decode(token)
+    if(!decodedUser) {
+      throw new HttpException('Bad token', HttpStatus.BAD_REQUEST);
+    }
+    return decodedUser
   }
 }

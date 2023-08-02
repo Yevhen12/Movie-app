@@ -8,12 +8,22 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from '../mui/theme'
 import createEmotionCache from '../mui/createEmotionCache';
 import { nextReduxWrapper } from '@/redux/store';
+import { NextComponentType, NextPageContext } from 'next'
+import { ACCESS_TOKEN } from '@/constants/common';
+import { getCookie } from 'cookies-next';
+import { userService } from '@/services/api/user.service';
+import { serverSideService } from '@/services/api/serverSide.service';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
+}
+
+type GetInitialPropsType = {
+  ctx: NextPageContext,
+  Component: NextComponentType<NextPageContext<any>, {}, {}>
 }
 
 const MyApp = (props: MyAppProps) => {
@@ -31,5 +41,19 @@ const MyApp = (props: MyAppProps) => {
     </CacheProvider>
   );
 }
+
+
+MyApp.getInitialProps = nextReduxWrapper.getInitialAppProps((store) => async ({ ctx, Component }: GetInitialPropsType) => {
+  const test = ctx.req?.headers.cookie
+  if (test) {
+    const parsedToken = test.split('=')[1]
+    const allUsers = await serverSideService.getAllUsers(parsedToken)
+    console.log('allUsers', allUsers)
+  }
+  return {
+    pageProps: Component.getInitialProps ? await Component.getInitialProps({ ...ctx, store }) : {},
+  };
+
+})
 
 export default nextReduxWrapper.withRedux(MyApp);
