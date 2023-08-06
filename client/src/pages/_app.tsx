@@ -13,6 +13,8 @@ import { ACCESS_TOKEN } from '@/constants/common';
 import { getCookie } from 'cookies-next';
 import { userService } from '@/services/api/user.service';
 import { serverSideService } from '@/services/api/serverSide.service';
+import { setCurrentUser } from '@/redux/slices/userSlice';
+import { IUser } from '@/types/types';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -44,11 +46,12 @@ const MyApp = (props: MyAppProps) => {
 
 
 MyApp.getInitialProps = nextReduxWrapper.getInitialAppProps((store) => async ({ ctx, Component }: GetInitialPropsType) => {
-  const test = ctx.req?.headers.cookie
-  if (test) {
-    const parsedToken = test.split('=')[1]
-    const allUsers = await serverSideService.getAllUsers(parsedToken)
-    console.log('allUsers', allUsers)
+  const token = ctx.req?.headers.cookie
+  if (token) {
+    const parsedToken = token.split('=')[1]
+    const currentUser: IUser = await serverSideService.getCurrentAccesTokenUser(parsedToken)
+    console.log('currentUser', currentUser)
+    store.dispatch(setCurrentUser(currentUser));
   }
   return {
     pageProps: Component.getInitialProps ? await Component.getInitialProps({ ...ctx, store }) : {},

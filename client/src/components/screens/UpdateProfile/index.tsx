@@ -7,8 +7,11 @@ import { TextField } from '@mui/material'
 import Button from '@/components/Button/Button'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AuthLayout from '@/components/Layouts/AuthLayout/AuthLayout'
+// import useAppSelector from '@/hooks/useAppSelector'
 
 const UpdateProfile: React.FC = () => {
+  // const state = useAppSelector(state => state)
+  // console.log('state', state)
   return (
     <AuthLayout>
       <Layout>

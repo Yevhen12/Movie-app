@@ -1,5 +1,5 @@
 import { UserType } from './types';
-import { HttpException, HttpStatus, Injectable, UseGuards } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -19,7 +19,7 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     const isUsernameExist = await this.userModel.findOne({ username: createUserDto.username })
     if (isUsernameExist) {
-      throw new HttpException('This username already exist', HttpStatus.BAD_REQUEST);
+      throw new ConflictException('This username already exist');
     }
 
     const isEmailExist = await this.userModel.findOne({ email: createUserDto.email }).exec()

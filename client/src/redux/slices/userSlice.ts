@@ -10,6 +10,7 @@ import { UserSliceType } from '../types/slicesTypes';
 import { deleteCookie, setCookie } from 'cookies-next';
 import { IUser } from '@/types/types';
 import { ACCESS_TOKEN } from '@/constants/common';
+import { HYDRATE } from 'next-redux-wrapper';
 
 export type UserInitialState = {
   isLoading: boolean;
@@ -19,6 +20,7 @@ export type UserInitialState = {
   };
   isLoggedIn: boolean;
   status: RequestStatuses | null
+  user: IUser | null
 };
 
 const initialState: UserInitialState = localStorageService.getAccessToken()
@@ -27,26 +29,34 @@ const initialState: UserInitialState = localStorageService.getAccessToken()
     error: null,
     auth: { userId: localStorageService.getUserId() },
     isLoggedIn: true,
-    status: null
+    status: null,
+    user: null,
   }
   : {
     isLoading: false,
     error: null,
     auth: { userId: null },
     isLoggedIn: false,
-    status: null
+    status: null,
+    user: null
   };
 
 const usersSlice = createSlice({
   name: Actions.USERS,
   initialState: initialState,
   reducers: {
+    setCurrentUser: (state: UserInitialState, { payload }: { payload: IUser }) => {
+      state.user = payload
+      state.auth.userId = payload._id
+      console.log('111111111111', payload)
+    },
     authRequested: (state: UserInitialState) => {
       state.error = null;
       state.status = RequestStatuses.REQUESTED;
     },
     authRequestSuccess: (state: UserInitialState, action) => {
-      state.auth = action.payload;
+      state.auth.userId = action.payload.userId;
+      state.user = action.payload.user;
       state.isLoggedIn = true;
       state.status = RequestStatuses.SUCCEEDED
     },
@@ -74,6 +84,12 @@ const usersSlice = createSlice({
       state.auth.userId = null;
     },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      state.user = action.payload.users.user
+    },
+  },
+
 });
 
 const { actions, reducer: usersReducer } = usersSlice;
@@ -87,6 +103,7 @@ export const {
   signUpRequested,
   signUpRequestSuccess,
   signUpRequestFailed,
+  setCurrentUser,
 } = actions;
 
 export const signIn =
@@ -104,7 +121,7 @@ export const signIn =
         }
         localStorageService.setTokens(localTokensObject);
         setCookie(ACCESS_TOKEN, data.access_token)
-        dispatch(authRequestSuccess({ userId: data._id }));
+        dispatch(authRequestSuccess({ userId: data._id, user: data }));
       } catch (error: any) {
         if (error instanceof AxiosError) {
           dispatch(authRequestFailed(error.response?.data?.message));
@@ -151,5 +168,6 @@ export const getCurrentUserId = () => (state: AppState) => {
   return state.users.auth.userId;
 };
 export const getAuthErrors = () => (state: AppState) => state.users.error;
+export const getCurrentUser = () => (state: AppState) => state.users.user
 
 export default usersReducer;

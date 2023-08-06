@@ -1,37 +1,36 @@
 import httpService from './http.service';
 import axios, { AxiosRequestConfig } from 'axios';
 import localStorageService from '../localStorage.service';
+import { IUser } from '@/types/types';
+import { SignUpDataType } from '@/dto';
 
 const userEndpoint = 'user';
 
-// const httpService = axios.create({
-//   baseURL: `${process.env.NEXT_PUBLIC_BASE_API_URL}`,
-// });
 type GetCurrentUserByAccessTokenType = {
   token: string
 }
 
 export const userService = {
   getAll: async () => {
-    const { data } = await httpService.get(userEndpoint);
+    const { data } = await httpService.get<IUser[]>(userEndpoint);
     return data;
   },
-  create: async (payload: any) => {
-    const { data } = await httpService.put(userEndpoint + payload._id, payload);
+  create: async (payload: SignUpDataType) => {
+    const { data } = await httpService.post<IUser>(userEndpoint, payload);
     return data;
   },
   getById: async (id: string) => {
-    const { data } = await httpService.get(userEndpoint + id);
+    const { data } = await httpService.get<IUser>(userEndpoint + id);
     return data;
   },
   getCurrentUser: async () => {
-    const { data } = await httpService.get(userEndpoint + `/${localStorageService.getUserId()}`);
+    const { data } = await httpService.get<IUser>(userEndpoint + `/${localStorageService.getUserId()}`);
     return data;
   },
-  getCurrentUserByAccessToken: async ({ token }: any) => {
-    const { data } = await httpService.get(userEndpoint + '/me', token);
-    return data;
-  }
+  // getCurrentUserByAccessToken: async (payload: GetCurrentUserByAccessTokenType) => {
+  //   const { data } = await httpService.get<IUser>(userEndpoint + '/me', payload.token);
+  //   return data;
+  // }
   // updateUserData: async (payload: any) => {
   //   const { data } = await httpService.patch(userEndpoint + localStorageService.getUserId(), payload);
   //   return data;

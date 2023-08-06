@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { AuthUser } from './decorators/authUser.decorator';
 
 @Controller('user')
 export class UserController {
@@ -31,9 +33,10 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  getMe(@Body() { token }: { token: string }) {
-    console.log('token', token)
-    return this.userService.getMe(token)
+  getMe(@Req() request) {
+    const jwt = request.headers.authorization.replace('Bearer ', '');
+    console.log('token', jwt)
+    return this.userService.getMe(jwt)
   }
 
   @UseGuards(JwtAuthGuard)

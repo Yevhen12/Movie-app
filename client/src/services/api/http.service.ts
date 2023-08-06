@@ -1,6 +1,6 @@
 import { ACCESS_TOKEN } from './../../constants/common';
 import { getCookie } from 'cookies-next';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import localStorageService from '../localStorage.service';
 
 const http = axios.create({

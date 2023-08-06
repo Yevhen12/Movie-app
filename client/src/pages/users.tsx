@@ -3,10 +3,12 @@ import Users from '@/components/screens/Users'
 import { NextPage } from 'next'
 
 
-const FavoriteListPage: NextPage = () => {
+const UsersPage: NextPage = () => {
   return (
     <Users />
   )
 }
 
-export default FavoriteListPage
+
+
+export default UsersPage

@@ -5,26 +5,17 @@ import AdminLayout from '@/components/Layouts/AdminLayout/AdminLayout'
 import UsersTable from '@/components/UsersTable/UsersTable'
 import Button from '@/components/Button/Button'
 import AuthLayout from '@/components/Layouts/AuthLayout/AuthLayout'
-import { userService } from '@/services/api/user.service'
 
 const MOCK_USERS = [
-  { image: "image", id: "787d78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
-  { image: "image", id: "787d78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
-  { image: "image", id: "787d78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
-  { image: "image", id: "787d78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
-  { image: "image", id: "787d78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
+  { image: "image", id: "787dre78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
+  { image: "image", id: "7287dre78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
+  { image: "image", id: "787d278", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
+  { image: "image", id: "78e7d78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
+  { image: "image", id: "787td78", date: "November 22, 2022", fullname: "Lys Yevhen", email: "some@gmail.com", role: "admin" },
 ]
 
 const Users: React.FC = () => {
 
-  useEffect(() => {
-    const fecthUsers = async () => {
-      const users = await userService.getAll()
-      console.log('users', users)
-    }
-
-    fecthUsers()
-  }, [])
   return (
     <AuthLayout>
       <Layout>

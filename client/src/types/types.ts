@@ -6,5 +6,5 @@ export interface IUser {
   role: string
   refresh_token: string
   access_token: string
-  __v: number
+  __v?: number
 }
